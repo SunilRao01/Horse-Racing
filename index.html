@@ -1,6 +1,8 @@
 <!doctype html>
 <html>
 	<head>
+		
+
 		<script src="phaser.min.js"></script>
 		<script src="src/Launcher.js"></script>
 		<script src="src/Preload.js"></script>
@@ -8,6 +10,10 @@
 		<script src="src/PickTeam.js"></script>
 		<script src="src/Race.js"></script>
 		<script src="src/Results.js"></script>
+
+		<style>
+			body{margin:0}
+		</style>
 
 		<script>
 			(function()
@@ -20,8 +26,9 @@
 				game.state.add("PickTeam", pickTeam);
 				game.state.add("Race", race);
 				game.state.add("Results", results);
+
 				game.state.start("Launcher");
-			})
+			})();
 		</script>
 	</head>
 </html>

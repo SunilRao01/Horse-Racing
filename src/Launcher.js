@@ -12,8 +12,6 @@ launcher.prototype =
 
 	create: function()
 	{
-		this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-		this.scale.setScreenSize();
 		this.game.state.start("Preload");
 	}
 }
