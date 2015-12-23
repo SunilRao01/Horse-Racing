@@ -9,6 +9,6 @@ preload.prototype =
 
 	create: function()
 	{
-		this.game.state.start("PickTeam");
+		this.game.state.start("StartMenu");
 	}
 }
