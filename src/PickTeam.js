@@ -1,41 +1,14 @@
 var pickTeam = function(game) {}
 
-var team1 = 
+function team (inputHorse)
 {
-	color: 0xff,
-	movement: 5,
-	luck: 1
+	this.movement = 5;
+	this.luck = 1;
+	this.horse = inputHorse;
 }
 
-var team2 = 
-{
-	color: 0xffb366,
-	movement: 4,
-	luck: 2
-}
-
-var team3 = 
-{
-	color: 0x66ff66,
-	movement: 3,
-	luck: 3
-}
-
-var team4 = 
-{
-	color: 0x66b2ff,
-	movement: 2,
-	luck: 4
-}
-
-var team5 = 
-{
-	color: 0xff6666,
-	movement: 1,
-	luck: 5
-}
-
-var teams = [team1, team2, team3, team4, team5];
+var teams = [];
+var chosenTeam;
 
 pickTeam.prototype = 
 {
@@ -43,6 +16,23 @@ pickTeam.prototype =
 	{
 		this.game.load.image('bg', 'assets/bg.jpg');
 		this.game.load.image('horse', 'assets/horse/standing_horse.png?v=1');
+	},
+	horseHoverEnter: function(currentHorse)
+	{
+		currentHorse.width += 20;
+		currentHorse.height += 20;
+	},
+	horseHoverExit: function(currentHorse)
+	{
+		currentHorse.width -= 20;
+		currentHorse.height -= 20;
+	},
+	horseSelect: function(currentHorse)
+	{
+		chosenTeam = currentHorse;
+		chosenTeam.inputEnabled = false;
+
+		this.game.state.start("Race");
 	},
 	create: function()
 	{
@@ -54,18 +44,46 @@ pickTeam.prototype =
 		var title = this.game.add.text(this.game.world.centerX/2, 5, "Pick a Team", titleStyle);
 
 		// Horses
-		var horses = [];
 		for (var i = 0; i < 5; i++)
 		{
-			horses[i] = this.game.add.sprite(this.game.world.centerX - 200, 70 + (i * 75), 'horse');
-			horses[i].width = 105;
-			horses[i].height = 67;
+			var tempHorse;
+			tempHorse = this.game.add.sprite(this.game.world.centerX - 200, 70 + (i * 75), 'horse');
+			tempHorse.width = 105;
+			tempHorse.height = 67;
+
+			tempHorse.inputEnabled = true;
+
+			tempHorse.events.onInputOver.add(this.horseHoverEnter, this);
+			tempHorse.events.onInputOut.add(this.horseHoverExit, this);
+			tempHorse.events.onInputUp.add(this.horseSelect, this);
+
+			var tempTeam = new team(tempHorse);
+			tempTeam.movement -= i;
+			tempTeam.luck += i;
+
+			// Set individual colors
+			switch (i)
+			{
+				case 0:
+					tempTeam.horse.tint = 0x00;
+					break;
+				case 1:
+					tempTeam.horse.tint = 0xff9900;
+					break;
+				case 2:
+					tempTeam.horse.tint = 0x009900;
+					break;
+				case 3:
+					tempTeam.horse.tint = 0xff;
+					break;
+				case 4:
+					tempTeam.horse.tint = 0xff6666;
+					break;
+			}
+
+			teams[i] = tempTeam;
 		}
-		horses[0].tint = team1.color;
-		horses[1].tint = team2.color;
-		horses[2].tint = team3.color;
-		horses[3].tint = team4.color;
-		horses[4].tint = team5.color;
+
 
 		// Horse stats
 		var statsStyle = { font: "24px Merriweather", fill: "#ff", align: "center" };
