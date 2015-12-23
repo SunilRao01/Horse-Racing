@@ -29,6 +29,8 @@ pickTeam.prototype =
 	},
 	horseSelect: function(currentHorse)
 	{
+		currentHorse.width -= 20;
+		currentHorse.height -= 20;
 		chosenTeam = currentHorse;
 		chosenTeam.inputEnabled = false;
 
@@ -41,7 +43,7 @@ pickTeam.prototype =
 
 		// Title
 		var titleStyle = { font: "64px Merriweather", fill: "#ff", align: "center" };
-		var title = this.game.add.text(this.game.world.centerX/2, 5, "Pick a Team", titleStyle);
+		this.game.add.text(this.game.world.centerX/2, 5, "Pick a Team", titleStyle);
 
 		// Horses
 		for (var i = 0; i < 5; i++)
