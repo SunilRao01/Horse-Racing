@@ -4,6 +4,11 @@ var currentTeam;
 var horseIndex = -1;
 var displayHorse;
 
+var timeCheck;
+var diceValues = [];
+
+const rollInterval = 50;
+
 race.prototype = 
 {
 	preload: function()
@@ -54,7 +59,7 @@ race.prototype =
 	},
 	updateDisplay: function()
 	{
-		// TODO: Display correct horse
+		// Display correct horse
 		if (horseIndex == -1)
 		{
 			displayHorse = this.game.add.sprite(200, 300, standingHorse.key);
@@ -65,8 +70,8 @@ race.prototype =
 		else
 		{
 			horseIndex++;
-			if (horseIndex > 4)
-			{
+			if (horseIndex > 4
+)			{
 				horseIndex = 0;
 			}
 
@@ -74,19 +79,41 @@ race.prototype =
 			displayHorse.tint = currentTeam.horse.tint;
 		}
 
-		// TODO: Display correct number of dice
+		// Display correct number of dice
 		for (var i = 0; i < currentTeam.movement; i++)
 		{
 			var dice = this.game.add.sprite(250 + (i*50), 350, 'dice');
 			dice.width = 32;
 			dice.height = 32;
+
+			var diceValueStyle = { font: "32px Merriweather", fill: "#ff", align: "center" };
+			var diceValue = this.game.add.text(258 + (i*50), 350, "0", diceValueStyle);
+			diceValues[i] = diceValue;
+			diceValues[i].rolling = true;
 		}
 
 		// TODO: Start rolling dice
+		this.rollDice();
+	},
+	update: function()
+	{
+		// 1000 = 1 second
+		if (this.game.time.now - timeCheck > rollInterval)
+		{
+			for (var i = 0; i < diceValues.length; i++)
+			{
+				if (diceValues[i].rolling)
+				{
+					diceValues[i].text = this.game.rnd.integerInRange(1, currentTeam.luck + 1);
+				}
+			}
+
+			this.rollDice();
+		}
 	},
 	rollDice: function()
 	{
-
+		timeCheck = this.game.time.now;
 	},
 	moveHorse: function()
 	{
