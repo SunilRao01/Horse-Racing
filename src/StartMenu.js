@@ -5,7 +5,7 @@ startMenu.prototype =
 	preload: function()
 	{
 		this.game.load.image('bg', 'assets/bg.jpg');
-		this.game.load.image('horse', 'assets/horse/horse1.png');
+		this.game.load.spritesheet('horses', 'assets/horse/horse_spritesheet.png?v=2', 184, 117, 11);
 	},
 	create: function()
 	{
@@ -29,6 +29,12 @@ startMenu.prototype =
 		start.anchor.set(0.5);
 
 		// Animated horse
-		var horseSprite = this.game.add.sprite(this.game.world.centerX - 91, this.game.world.centerY - 58, 'horse');
+		var horses = this.game.add.sprite(this.game.world.centerX - 92, this.game.world.centerY - 58.5, 'horses');
+		horses.animations.add('move');
+
+		horses.animations.play('move', 24, true);
+
+
+
 	}
 }
