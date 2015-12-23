@@ -9,6 +9,7 @@ function team (inputHorse)
 
 var teams = [];
 var chosenTeam;
+var standingHorse;
 
 pickTeam.prototype = 
 {
@@ -33,6 +34,7 @@ pickTeam.prototype =
 		currentHorse.height -= 20;
 		chosenTeam = currentHorse;
 		chosenTeam.inputEnabled = false;
+		standingHorse.inputEnabled = false;
 
 		this.game.state.start("Race");
 	},
@@ -59,6 +61,8 @@ pickTeam.prototype =
 			tempHorse.events.onInputOut.add(this.horseHoverExit, this);
 			tempHorse.events.onInputUp.add(this.horseSelect, this);
 
+
+
 			var tempTeam = new team(tempHorse);
 			tempTeam.movement -= i;
 			tempTeam.luck += i;
@@ -68,6 +72,7 @@ pickTeam.prototype =
 			{
 				case 0:
 					tempTeam.horse.tint = 0x00;
+					standingHorse = tempHorse;
 					break;
 				case 1:
 					tempTeam.horse.tint = 0xff9900;

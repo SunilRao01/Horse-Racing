@@ -1,10 +1,15 @@
 var race = function(game) {}
 
+var currentTeam;
+var horseIndex = -1;
+var displayHorse;
+
 race.prototype = 
 {
 	preload: function()
 	{
 		this.game.load.image('bg', 'assets/bg.jpg');
+		this.game.load.image('dice', 'assets/dice_ui.png')
 
 	},
 	create: function()
@@ -23,6 +28,7 @@ race.prototype =
 			orderHorse.width = 50;
 			orderHorse.height = 30;
 		}
+		var line1 = new Phaser.Line(20, 0, 20, 200);
 
 		// Race display
 		// Display teams on race track
@@ -38,6 +44,52 @@ race.prototype =
 			tempHorse.animations.add('move');
 
 			tempHorse.animations.play('move', 30, true);
+			teams[i].horse = tempHorse;
 		}
+
+		// Black horse starts first
+		currentTeam = teams[0];
+
+		this.updateDisplay();
+	},
+	updateDisplay: function()
+	{
+		// TODO: Display correct horse
+		if (horseIndex == -1)
+		{
+			displayHorse = this.game.add.sprite(200, 300, standingHorse.key);
+			displayHorse.tint = currentTeam.horse.tint;
+			displayHorse.scale.x = displayHorse.scale.x * -1;
+			horseIndex++;
+		}
+		else
+		{
+			horseIndex++;
+			if (horseIndex > 4)
+			{
+				horseIndex = 0;
+			}
+
+			currentTeam = teams[horseIndex];
+			displayHorse.tint = currentTeam.horse.tint;
+		}
+
+		// TODO: Display correct number of dice
+		for (var i = 0; i < currentTeam.movement; i++)
+		{
+			var dice = this.game.add.sprite(250 + (i*50), 350, 'dice');
+			dice.width = 32;
+			dice.height = 32;
+		}
+
+		// TODO: Start rolling dice
+	},
+	rollDice: function()
+	{
+
+	},
+	moveHorse: function()
+	{
+
 	}
 }
