@@ -31,19 +31,6 @@ race.prototype =
 		// Background
 		this.game.add.image(0, 0, 'bg');
 
-		// Text elements
-		// Order sidebar
-		var titleStyle = { font: "24px Merriweather", fill: "#ff", align: "center" };
-		this.game.add.text(5, 5, "Order", titleStyle);
-		for (var i = 0; i < teams.length; i++)
-		{
-			var orderHorse = this.game.add.sprite(12, 30 + (i * 40), teams[i].horse.key);
-			orderHorse.tint = teams[i].horse.tint;
-			orderHorse.width = 50;
-			orderHorse.height = 30;
-		}
-		var line1 = new Phaser.Line(20, 0, 20, 200);
-
 		// Race display
 		// Display teams on race track
 		for (var i = 0; i < 5; i++)
@@ -160,7 +147,7 @@ race.prototype =
 				{
 					if (diceValues[i].rolling)
 					{
-						diceValues[i].text = this.game.rnd.integerInRange(1 + (currentTeam.luck/2), currentTeam.luck + 1);
+						diceValues[i].text = this.game.rnd.integerInRange(1, currentTeam.luck + 1);
 					}
 				}
 
