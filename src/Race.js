@@ -14,6 +14,9 @@ var diceValueStyle;
 
 const rollInterval = 50;
 var rollingDice = true;
+var calculatingDice = true;
+
+var winner;
 
 race.prototype = 
 {
@@ -95,6 +98,13 @@ race.prototype =
 	},
 	updateDisplay: function()
 	{
+		// Check for winner
+		if (currentTeam.horse.x > 600)
+		{
+			winner = currentTeam;
+			this.game.state.start("Results");
+		}
+
 		// Reset dice sum
 		diceSum.text = 0;
 
@@ -104,18 +114,26 @@ race.prototype =
 		{
 			horseIndex = 0;
 		}
-
 		currentTeam = teams[horseIndex];
 		displayHorse.tint = currentTeam.horse.tint;
+
+		// Remove previous dice
+		for (var i = 0; i < dice.length; i++)
+		{
+			dice[i].kill();
+			diceValues[i].kill();
+		}
+
+		diceSum.kill();
 
 		// Display correct number of dice
 		dice = [];
 		diceValues = [];
 		for (var i = 0; i < currentTeam.movement; i++)
 		{
-			dice = this.game.add.sprite(250 + (i*50), 350, 'dice');
-			dice.width = 32;
-			dice.height = 32;
+			dice[i] = this.game.add.sprite(250 + (i*50), 350, 'dice');
+			dice[i].width = 32;
+			dice[i].height = 32;
 
 			diceValueStyle = { font: "32px Merriweather", fill: "#ff", align: "center" };
 			diceValue = this.game.add.text(258 + (i*50), 350, "0", diceValueStyle);
@@ -127,13 +145,13 @@ race.prototype =
 		var diceSumStyle = { font: "64px Merriweather", fill: "#ff", align: "center" };
 		diceSum = this.game.add.text(258 + (diceValues.length*50), 350, 0, diceValueStyle)
 
-		// TODO: Start rolling dice
+		// Start rolling dice
 		this.rollDice();
 		this.calculateMovement();
 	},
 	update: function()
 	{
-		// 1000 = 1 second
+		// Timer for rolling dice
 		if (rollingDice)
 		{
 			if (this.game.time.now - rollTimeCheck > rollInterval)
@@ -142,7 +160,7 @@ race.prototype =
 				{
 					if (diceValues[i].rolling)
 					{
-						diceValues[i].text = this.game.rnd.integerInRange(1, currentTeam.luck + 1);
+						diceValues[i].text = this.game.rnd.integerInRange(1 + (currentTeam.luck/2), currentTeam.luck + 1);
 					}
 				}
 
@@ -150,47 +168,52 @@ race.prototype =
 			}
 		}
 
-
-		if (this.game.time.now - calcTimeCheck > 1000)
+		if (calculatingDice)
 		{
-			var finished = true;
-			for (var i = 0; i < diceValues.length; i++)
+			// Timer for stopping and calculating dice
+			if (this.game.time.now - calcTimeCheck > 1000)
 			{
-				if (diceValues[i].rolling)
+				var finished = true;
+				for (var i = 0; i < diceValues.length; i++)
 				{
-					diceValues[i].rolling = false;
-					finished = false;
-					diceSum.text = parseInt(diceSum.text) + parseInt(diceValues[i].text);
-					break;
+					if (diceValues[i].rolling)
+					{
+						diceValues[i].rolling = false;
+						finished = false;
+						diceSum.text = parseInt(diceSum.text) + parseInt(diceValues[i].text);
+						break;
+					}
 				}
-			}
 
-			// Check if dice rolling is complete
-			if (finished == true)
-			{
-				rollingDice = false;
-				this.moveHorse();
-			}
-			else
-			{
-				this.calculateMovement();
+				// Check if dice rolling is complete
+				if (finished == true)
+				{
+					rollingDice = false;
+					calculatingDice = false;
+					this.moveHorse();
+				}
+				else
+				{
+					this.calculateMovement();
+				}
 			}
 		}
 	},
 	rollDice: function()
 	{
-		//rollingDice = true;
+		rollingDice = true;
 		rollTimeCheck = this.game.time.now;
 	},
 	calculateMovement: function()
 	{
+		calculatingDice = true;
 		calcTimeCheck = this.game.time.now;
 	},
 	moveHorse: function()
 	{
 		// Tween horse forward
 		var movementTween = this.game.add.tween(currentTeam.horse);
-		movementTween.to({x:(currentTeam.horse.x + parseInt(diceSum.text))}, currentTeam.horse.y);
+		movementTween.to({ x: ( currentTeam.horse.x + (10 * parseInt(diceSum.text)) ) }, 1000);
 		movementTween.onComplete.add(this.updateDisplay, this);
 		movementTween.start();
 	}
