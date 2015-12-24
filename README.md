@@ -7,6 +7,6 @@ Instructions to play:
 
 2.) Place all files in localhost directory
 
-3.) Run game from your browser! (e.g. "localhost/Horse-Racing')
+3.) Run game from your browser! (e.g. 'localhost/Horse-Racing')
 
-4.) if you have some problems running the game, please contact me at: srao0194@gmail.com
+4.) if you have any problems running the game, please contact me at: srao0194@gmail.com
