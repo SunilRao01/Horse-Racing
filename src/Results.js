@@ -18,8 +18,8 @@ results.prototype =
 		var winnerSprite = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, winner.horse.key);
 		winnerSprite.tint = winner.horse.tint;
 		winnerSprite.anchor.set(0.5);
-S
-		if (chosenTeam == winner)
+
+		if (chosenTeam.tint == winner.horse.tint)
 		{
 			titleText.text = "You won!";
 		}

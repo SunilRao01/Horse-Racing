@@ -29,6 +29,8 @@ race.prototype =
 	},
 	create: function()
 	{
+		horseIndex = -1;
+
 		// Background
 		this.game.add.image(0, 0, 'bg');
 
@@ -216,7 +218,7 @@ race.prototype =
 	{
 		// Tween horse forward
 		var movementTween = this.game.add.tween(currentTeam.horse);
-		movementTween.to({ x: ( currentTeam.horse.x + (10 * parseInt(diceSum.text)) ) }, 1000);
+		movementTween.to({ x: ( currentTeam.horse.x + (20 * parseInt(diceSum.text)) ) }, 1000);
 		movementTween.onComplete.add(this.updateDisplay, this);
 		movementTween.start();
 	}
