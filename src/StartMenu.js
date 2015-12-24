@@ -44,7 +44,7 @@ startMenu.prototype =
 		horses.tint = 0x00;
 		horses.animations.add('move');
 
-		horses.animations.play('move', 30, true);
+		horses.animations.play('move', 24, true);
 		movingHorse = horses;
 	}
 

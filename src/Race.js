@@ -24,6 +24,7 @@ race.prototype =
 	{
 		this.game.load.image('bg', 'assets/bg.jpg');
 		this.game.load.image('dice', 'assets/dice_ui.png')
+		this.game.load.image('finish', 'assets/finish_line.png')
 
 	},
 	create: function()
@@ -44,9 +45,12 @@ race.prototype =
 
 			tempHorse.animations.add('move');
 
-			tempHorse.animations.play('move', 30, true);
+			tempHorse.animations.play('move', 24, true);
 			teams[i].horse = tempHorse;
 		}
+
+		// Add finish line
+		this.game.add.image(600, 50, 'finish');
 
 		// Black horse starts first
 		currentTeam = teams[0];
@@ -79,7 +83,7 @@ race.prototype =
 		var diceSumStyle = { font: "64px Merriweather", fill: "#ff", align: "center" };
 		diceSum = this.game.add.text(258 + (diceValues.length*50), 350, 0, diceValueStyle)
 
-		// TODO: Start rolling dice
+		// Start rolling dice
 		this.rollDice();
 		this.calculateMovement();
 	},
@@ -147,7 +151,19 @@ race.prototype =
 				{
 					if (diceValues[i].rolling)
 					{
-						diceValues[i].text = this.game.rnd.integerInRange(1, currentTeam.luck + 1);
+						// Balance changes for last two horses to make it more balanced
+						if (horseIndex == 4)
+						{
+							diceValues[i].text = this.game.rnd.integerInRange(5, 9);	
+						}
+						else if (horseIndex == 3)
+						{
+							diceValues[i].text = this.game.rnd.integerInRange(2, 6)
+						}
+						else
+						{
+							diceValues[i].text = this.game.rnd.integerInRange(1, currentTeam.luck + 1);
+						}
 					}
 				}
 
