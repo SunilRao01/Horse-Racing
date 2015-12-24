@@ -4,7 +4,7 @@ preload.prototype =
 {
 	preload: function()
 	{
-		// Load sprites here
+		
 	},
 
 	create: function()

@@ -28,6 +28,7 @@ results.prototype =
 			titleText.text = "You lost!";
 		}
 
+		// Play again button
 		var playAgainStyle = { font: "32px Merriweather", fill: "#ff", align: "center" };
 		var playAgain = this.game.add.text(this.game.world.centerX, this.game.world.centerY+160,
 								   "Play Again", playAgainStyle);
