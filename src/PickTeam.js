@@ -13,11 +13,6 @@ var standingHorse;
 
 pickTeam.prototype = 
 {
-	preload: function()
-	{
-		this.game.load.image('bg', 'assets/bg.jpg');
-		this.game.load.image('horse', 'assets/horse/standing_horse.png?v=1');
-	},
 	horseHoverEnter: function(currentHorse)
 	{
 		currentHorse.width += 20;

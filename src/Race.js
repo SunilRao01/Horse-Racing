@@ -20,13 +20,6 @@ var winner;
 
 race.prototype = 
 {
-	preload: function()
-	{
-		this.game.load.image('bg', 'assets/bg.jpg');
-		this.game.load.image('dice', 'assets/dice_ui.png')
-		this.game.load.image('finish', 'assets/finish_line.png')
-
-	},
 	create: function()
 	{
 		horseIndex = -1;
@@ -47,7 +40,7 @@ race.prototype =
 
 			tempHorse.animations.add('move');
 
-			tempHorse.animations.play('move', 24, true);
+			tempHorse.animations.play('move', 20, true);
 			teams[i].horse = tempHorse;
 		}
 

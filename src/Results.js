@@ -2,10 +2,6 @@ var results = function(game) {}
 
 results.prototype = 
 {
-	preload: function()
-	{
-		this.game.load.image('bg', 'assets/bg.jpg');
-	},
 	create: function()
 	{
 		// Background

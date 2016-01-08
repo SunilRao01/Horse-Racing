@@ -7,7 +7,7 @@ launcher.prototype =
 {
 	preload: function()
 	{
-		
+		this.game.load.image("loading","assets/loading_bar.png"); 
 	},
 
 	create: function()

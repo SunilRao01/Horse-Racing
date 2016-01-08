@@ -4,12 +4,6 @@ var movingHorse;
 
 startMenu.prototype = 
 {
-	preload: function()
-	{
-		this.game.load.image('bg', 'assets/bg.jpg');
-		this.game.load.spritesheet('horses', 'assets/horse/horse_spritesheet.png?v=5', 184, 117, 11);
-	},
-
 	playTheGame: function()
 	{
 		this.game.state.start("PickTeam");
@@ -44,7 +38,7 @@ startMenu.prototype =
 		horses.tint = 0x00;
 		horses.animations.add('move');
 
-		horses.animations.play('move', 24, true);
+		horses.animations.play('move', 20, true);
 		movingHorse = horses;
 	}
 
